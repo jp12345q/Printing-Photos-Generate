@@ -1,3 +1,5 @@
+// This script is a picture tranfer into pdf file
+// Like generate for layout, paper, pictuce, sizing.
 fetch('form/imageform.html')
     .then(response => response.text())
     .then(data => {
@@ -142,7 +144,7 @@ fetch('form/imageform.html')
                 }
             }
         }
-        
+
         // Preview the generated PDF in the iframe
         const pdfBlob = doc.output('blob');
         const pdfUrl = URL.createObjectURL(pdfBlob);
