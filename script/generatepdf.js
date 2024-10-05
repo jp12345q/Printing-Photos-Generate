@@ -1,7 +1,7 @@
 fetch('form/imageform.html')
-.then(response => response.text())
-.then(data => {
-    document.getElementById('inputform').innerHTML = data;
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('inputform').innerHTML = data;
 
     const imageUploadInput = document.getElementById('imageUpload');
     const imageCountMessage = document.getElementById('imageCountMessage');
@@ -9,12 +9,12 @@ fetch('form/imageform.html')
 
     // Update the image count message and store the images
     imageUploadInput.addEventListener('change', function() {
-        const newFiles = Array.from(imageUploadInput.files);
-        uploadedImages = [...uploadedImages, ...newFiles];  // Accumulate the images
-        imageCountMessage.textContent = `${uploadedImages.length} image(s) added.`;
+    const newFiles = Array.from(imageUploadInput.files);
+    uploadedImages = [...uploadedImages, ...newFiles];  // Accumulate the images
+    imageCountMessage.textContent = `${uploadedImages.length} image(s) added.`;
     });
-}
-    ,async function generatePDF() {
+
+    window.generatePDF = async function() {
         const { jsPDF } = window.jspdf;
 
         const paperSize = document.getElementById('paper_size').value;
@@ -142,9 +142,10 @@ fetch('form/imageform.html')
                 }
             }
         }
-
+        
         // Preview the generated PDF in the iframe
         const pdfBlob = doc.output('blob');
         const pdfUrl = URL.createObjectURL(pdfBlob);
         document.getElementById('pdfPreview').src = pdfUrl;
-    });
+    }
+});
