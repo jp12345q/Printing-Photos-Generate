@@ -16,7 +16,7 @@ fetch('form/imageform.html')
     imageCountMessage.textContent = `${uploadedImages.length} image(s) added.`;
     });
 
-    window.generatePDF = async function() {
+    window.generatePDF = async function() { 
         const { jsPDF } = window.jspdf;
 
         const paperSize = document.getElementById('paper_size').value;
@@ -113,35 +113,44 @@ fetch('form/imageform.html')
             const url = URL.createObjectURL(image);
             
             img.src = url;
-
+        
             await new Promise((resolve) => {
                 img.onload = () => {
-                    canvas.width = imgWidth;
-                    canvas.height = imgHeight;
-                    ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
-
-                    const imgData = canvas.toDataURL('image/jpeg');
+                    // Higher resolution factor to enhance quality further
+                    const higherResolutionFactor = 4;  // 4x resolution for better image quality
+                    const enhancedImgWidth = imgWidth * higherResolutionFactor;
+                    const enhancedImgHeight = imgHeight * higherResolutionFactor;
+        
+                    // Set canvas to higher resolution
+                    canvas.width = enhancedImgWidth;
+                    canvas.height = enhancedImgHeight;
+        
+                    // Draw the image onto the canvas at enhanced resolution
+                    ctx.drawImage(img, 0, 0, enhancedImgWidth, enhancedImgHeight);
+        
+                    // Convert to PNG for maximum quality and lossless compression
+                    const imgData = canvas.toDataURL('image/png', 1.0);  // 1.0 ensures maximum quality for PNG
+        
+                    //Remaining picture tranfer to next paper
                     const col = i % cols;
-                    const row = Math.floor(i / cols);
-
-                    // Calculate position for centering the image
+                    const row = Math.floor((i % (cols * rows)) / cols);
+        
+                    // Center the image on the page
                     const xOffset = (cellWidth - imgWidth) / 2;
                     const yOffset = (cellHeight - imgHeight) / 2;
-
+        
                     const x = col * cellWidth + xOffset;
                     const y = row * cellHeight + yOffset;
-
-                    doc.addImage(imgData, 'JPEG', x, y, imgWidth, imgHeight);
+        
+                    // Add image to the PDF 
+                    doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'NONE');
                     resolve();
                 };
             });
-
-            // Still not showing for next page picture
-            // Universal logic for adding a new page for all layouts
-            if ((i + 1) % (cols * rows) === 0) {
-                if (i < uploadedImages.length - 1) {
-                    doc.addPage();
-                }
+        
+            // Logic to add a new page if needed after the current one is full
+            if ((i + 1) % (cols * rows) === 0 && i < uploadedImages.length - 1) {
+                doc.addPage(); // Move to the next page after filling the current one
             }
         }
 
