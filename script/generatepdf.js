@@ -1,5 +1,5 @@
 // This script is a picture tranfer into pdf file
-// Like generate for layout, paper, pictuce, sizing.
+// Like generate for layout, paper, picture, sizing.
 fetch('form/imageform.html')
     .then(response => response.text())
     .then(data => {
