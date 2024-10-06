@@ -6,37 +6,54 @@ select{
 }
 option{
     font-size: 18px;
-}
+}   
 
 .dropdown select{
-    background-color: hsl(0, 0%, 80%);
+    background-color: hsla(0, 0%, 100%, 0.788);
     border-radius: 10px;
-    padding: 2px;
+    padding: 5px 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 3px hsl(0, 0%, 55%);
+    margin-top: 10px;
 }
-
 .dropdown1 select{
-    background-color: hsl(0, 0%, 80%);
+    background-color: hsla(0, 0%, 100%, 0.788);
     border-radius: 10px;
-    padding: 2px;
+    padding: 5px 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 3px hsl(0, 0%, 55%);
+    margin-top: 10px;
 }
-
 .dropdown2 select{
-    background-color: hsl(0, 0%, 80%);
+    background-color: hsla(0, 0%, 100%, 0.788);
     border-radius: 10px;
-    padding: 2px;
+    padding: 5px 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 3px hsl(0, 0%, 55%);
+    margin-top: 10px;
 }
-
 .dropdown3 select{
-    background-color: hsl(0, 0%, 80%);
+    background-color: hsla(0, 0%, 100%, 0.788);
     border-radius: 10px;
-    padding: 2px;
+    padding: 5px 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 3px hsl(0, 0%, 55%);
+    margin-top: 10px;
 }
 
-.dropdown4 select{
-    background-color: hsl(0, 0%, 80%);
-    border-radius: 10px;
-    padding: 2px;
+.dropdown select:hover{
+    background-color: hsl(0, 0%, 89%);
 }
+.dropdown1 select:hover{
+    background-color: hsl(0, 0%, 89%);
+}
+.dropdown2 select:hover{
+    background-color: hsl(0, 0%, 89%);
+}
+.dropdown3 select:hover{
+    background-color: hsl(0, 0%, 89%);
+}
+
 
 /*for form icon */
 .icon1{
