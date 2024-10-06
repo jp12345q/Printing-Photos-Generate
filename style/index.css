@@ -19,3 +19,38 @@ h1{
     padding: 10px;
     background-color: hsl(0, 0%, 100%);
 }
+
+/*Button*/
+.Submit{
+    font-size: 22px;
+    font-style: bold;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.Clear{
+    font-size: 22px;
+    font-style: bold;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#submitButton{
+    background-color: hsl(118, 52%, 52%);
+    margin: 10px;
+    box-shadow: 4px 2px 3px hsl(0, 0%, 27%);
+}
+
+#submitButton:hover{
+    background-color: hsl(113, 22%, 77%);
+}
+
+#clearButton{
+    background-color: hsl(0, 51%, 50%);
+    margin: 10px;
+    box-shadow: 4px 2px 3px hsl(0, 0%, 27%);
+}
+
+#clearButton:hover{
+    background-color: hsl(0, 51%, 71%);
+}

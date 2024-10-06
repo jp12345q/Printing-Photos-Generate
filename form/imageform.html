@@ -1,14 +1,14 @@
 <div class="form">
 
     <!-- Input Image Section -->
-    <label for="imageUpload"><i class="fas fa-image"></i> Choose pictures:</label>
+    <label for="imageUpload"><span class="icon1"></span> Add pictures:</label>
     <input type="file" id="imageUpload" name="imageUpload" accept="image/*" multiple required><br>
     
     <!-- Message to display how many images have been uploaded -->
-    <p id="imageCountMessage"><i class="fas fa-images"></i> No images added.</p>
+    <p id="imageCountMessage">No images added.</p>
 
     <!-- Paper size Section -->
-    <label for="paper_size"><i class="fas fa-file-edit"></i> Select paper size:</label>
+    <label for="paper_size"><span class="icon2"></span> Select paper size:</label>
     <select id="paper_size" required>
         <option value="A4">A4</option>
         <option value="Legal">Legal</option>
@@ -16,14 +16,14 @@
     </select><br><br>
     
     <!-- Orienation Section -->
-    <label class="icon1" for="orientation">Select orientation:</label>
+    <label for="orientation"><span class="icon3"></span> Select orientation:</label>
     <select id="orientation" required>
         <option value="portrait">Portrait</option>
         <option value="landscape">Landscape</option>
     </select><br><br>
     
     <!-- Pictuer size Section -->
-    <label for="picture_size">Select picture size:</label>
+    <label for="picture_size"><span class="icon4"></span> Select picture size:</label>
     <select id="picture_size" required>
         <option value="1x1">1by1 Size (1"x1")</option>
         <option value="2x2">2by2 Size (2"x2")</option>
@@ -37,7 +37,7 @@
     </select><br><br>
     
     <!-- Layout Output Section -->
-    <label for="layout">Select picture layout (Rows x Columns):</label>
+    <label for="layout"><span class="icon5"></span> Select picture layout (Rows x Columns):</label>
     <select id="layout" required>
         <option value="1x1">1x1 (1 picture per page)</option>
         <option value="1x2">1x2 (1 column, 2 rows)</option>
