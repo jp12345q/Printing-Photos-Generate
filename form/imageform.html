@@ -2,52 +2,60 @@
 
     <!-- Input Image Section -->
     <label for="imageUpload"><span class="icon1"></span> Add pictures:</label>
-    <input type="file" id="imageUpload" name="imageUpload" accept="image/*" multiple required><br>
+    <input style="font-size: 18px;" type="file" id="imageUpload" name="imageUpload" accept="image/*" multiple required><br>
     
     <!-- Message to display how many images have been uploaded -->
-    <p id="imageCountMessage">No images added.</p>
+    <p id="imageCountMessage" style="font-size: 19px;">No images added.</p>
 
     <!-- Paper size Section -->
-    <label for="paper_size"><span class="icon2"></span> Select paper size:</label>
-    <select id="paper_size" required>
-        <option value="A4">A4</option>
-        <option value="Legal">Legal</option>
-        <option value="Letter">Letter</option>
-    </select><br><br>
+    <div class="dropdown">
+        <label for="paper_size"><span class="icon2"></span> Select paper size:</label>
+        <select id="paper_size" required>
+            <option value="A4">A4</option>
+            <option value="Legal">Legal</option>
+            <option value="Letter">Letter</option>
+        </select><br><br>
+    </div>
     
     <!-- Orienation Section -->
-    <label for="orientation"><span class="icon3"></span> Select orientation:</label>
-    <select id="orientation" required>
-        <option value="portrait">Portrait</option>
-        <option value="landscape">Landscape</option>
-    </select><br><br>
+     <div class="dropdown1">
+        <label for="orientation"><span class="icon3"></span> Select orientation:</label>
+        <select id="orientation" required>
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
+        </select><br><br>
+    </div>
     
     <!-- Pictuer size Section -->
-    <label for="picture_size"><span class="icon4"></span> Select picture size:</label>
-    <select id="picture_size" required>
-        <option value="1x1">1by1 Size (1"x1")</option>
-        <option value="2x2">2by2 Size (2"x2")</option>
-        <option value="wallet">Wallet Size (2"x3")</option>
-        <option value="2r">2R (2.5"x3.5")</option>
-        <option value="3r">3R (3.5"x5")</option>
-        <option value="4r">4R (4"x6")</option>
-        <option value="5r">5R (5"x7")</option>
-        <option value="6r">6R (6"x8")</option>
-        <option value="8r">8R (8"x10")</option>
-    </select><br><br>
+    <div class="dropdown2">
+        <label for="picture_size"><span class="icon4"></span> Select picture size:</label>
+        <select id="picture_size" required>
+            <option value="1x1">1by1 Size (1"x1")</option>
+            <option value="2x2">2by2 Size (2"x2")</option>
+            <option value="wallet">Wallet Size (2"x3")</option>
+            <option value="2r">2R (2.5"x3.5")</option>
+            <option value="3r">3R (3.5"x5")</option>
+            <option value="4r">4R (4"x6")</option>
+            <option value="5r">5R (5"x7")</option>
+            <option value="6r">6R (6"x8")</option>
+            <option value="8r">8R (8"x10")</option>
+        </select><br><br>
+    </div>
     
     <!-- Layout Output Section -->
-    <label for="layout"><span class="icon5"></span> Select picture layout (Rows x Columns):</label>
-    <select id="layout" required>
-        <option value="1x1">1x1 (1 picture per page)</option>
-        <option value="1x2">1x2 (1 column, 2 rows)</option>
-        <option value="1x3">1x3 (1 column, 3 rows)</option>
-        <option value="2x1">2x1 (2 columns, 1 row)</option>
-        <option value="2x2">2x2 (2 columns, 2 rows)</option>
-        <option value="2x3">2x3 (2 columns, 3 rows)</option>
-        <option value="3x2">3x2 (3 columns, 2 rows)</option>
-        <option value="3x3">3x3 (3 columns, 3 rows)</option>
-        <option value="3x4">3x4 (3 columns, 4 rows)</option>
-    </select><br><br>
+    <div class="dropdown3">
+        <label for="layout"><span class="icon5"></span> Select picture layout (Rows x Columns):</label>
+        <select id="layout" required>
+            <option value="1x1">1x1 (1 picture per page)</option>
+            <option value="1x2">1x2 (1 column, 2 rows)</option>
+            <option value="1x3">1x3 (1 column, 3 rows)</option>
+            <option value="2x1">2x1 (2 columns, 1 row)</option>
+            <option value="2x2">2x2 (2 columns, 2 rows)</option>
+            <option value="2x3">2x3 (2 columns, 3 rows)</option>
+            <option value="3x2">3x2 (3 columns, 2 rows)</option>
+            <option value="3x3">3x3 (3 columns, 3 rows)</option>
+            <option value="3x4">3x4 (3 columns, 4 rows)</option>
+        </select><br><br>
+    </div>
 
 </div> 
