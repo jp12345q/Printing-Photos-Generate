@@ -16,6 +16,31 @@ fetch('form/imageform.html')
     imageCountMessage.textContent = `${uploadedImages.length} image(s) added.`;
     });
 
+    document.getElementById('clearButton').addEventListener('click', function() {
+        // Clear image upload input
+        document.getElementById('imageUpload').value = '';
+
+        // Clear the image count message
+        document.getElementById('imageCountMessage').textContent = 'No images added.';
+
+        // Clear the uploadedImages array
+        uploadedImages = [];
+
+        // Reset form fields (paper size, orientation, picture size, and layout)
+        document.getElementById('paper_size').selectedIndex = 0;
+        document.getElementById('orientation').selectedIndex = 0;
+        document.getElementById('picture_size').selectedIndex = 0;
+        document.getElementById('layout').selectedIndex = 0;
+
+        // Clear the PDF preview iframe
+        document.getElementById('pdfPreview').src = '';
+
+        // Clear the canvas (optional, depending on your layout)
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
     window.generatePDF = async function() { 
         const { jsPDF } = window.jspdf;
 
