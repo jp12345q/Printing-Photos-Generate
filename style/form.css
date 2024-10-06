@@ -1,0 +1,15 @@
+i{
+    font-size: 20px;
+}
+
+/* 
+label .icon1::before{
+    content: '';
+    background-image: url('/icon/orientation.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+}
+*/

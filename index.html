@@ -3,30 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="style/form.css">
+    <link rel="stylesheet" href="style/index.css">
+    <link rel="icon" type="image/png" href="icon/printicon.png">
     <title>Print Your Photos</title>
-    
+
 </head>
 <body>
-    <h1>Upload Your Pictures</h1>
-    <form id="imageForm">
-        <div id="inputform">
-        <!--Separate file/code "Imageform.html"-->
+    <div id="contanier">
+        <div class="border">
+            <h1>Upload Your Pictures</h1>
+            <form id="imageForm">
+                <div id="inputform">
+                <!--Separate file/code "Imageform.html"-->
+                </div>
+                <!-- Submit Button -->
+                <button id="submitButton" class="Submit" type="button" onclick="generatePDF()">Generate PDF</button>
+                <!-- Clear Button -->
+                <button id="clearButton" class="Clear" type="button" id="clearButton">Clear</button>
+            </form>
         </div>
-        <!-- Submit Button -->
-        <button type="button" onclick="generatePDF()">Generate PDF</button>
-        <!-- Clear Button -->
-        <button type="button" id="clearButton">Clear</button>
-    </form>
 
-    <!-- Iframe to preview the PDF -->
-    <h2>PDF Preview:</h2>
-    <iframe id="pdfPreview" style="width: 100%; height: 500px;"></iframe>
+        <!-- Iframe to preview the PDF -->
+        <div id="preview">
+        </div>
 
-    <canvas id="canvas" style="display: none;"></canvas>
-
+        <canvas id="canvas" style="display: none;"></canvas>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="script/contanier.js"></script>
     <script src="script/generatepdf.js"></script>
+    <script src="/script/pdfscreen.js"></script>
 </body>
 </html>

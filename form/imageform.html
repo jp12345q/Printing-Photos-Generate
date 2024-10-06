@@ -1,13 +1,14 @@
-<div>
+<div class="form">
+
     <!-- Input Image Section -->
-    <label for="imageUpload">Choose pictures:</label>
-    <input type="file" id="imageUpload" name="imageUpload" accept="image/*" multiple required><br><br>
+    <label for="imageUpload"><i class="fas fa-image"></i> Choose pictures:</label>
+    <input type="file" id="imageUpload" name="imageUpload" accept="image/*" multiple required><br>
     
     <!-- Message to display how many images have been uploaded -->
-    <p id="imageCountMessage">No images added.</p><br>
+    <p id="imageCountMessage"><i class="fas fa-images"></i> No images added.</p>
 
     <!-- Paper size Section -->
-    <label for="paper_size">Select paper size:</label>
+    <label for="paper_size"><i class="fas fa-file-edit"></i> Select paper size:</label>
     <select id="paper_size" required>
         <option value="A4">A4</option>
         <option value="Legal">Legal</option>
@@ -15,7 +16,7 @@
     </select><br><br>
     
     <!-- Orienation Section -->
-    <label for="orientation">Select orientation:</label>
+    <label class="icon1" for="orientation">Select orientation:</label>
     <select id="orientation" required>
         <option value="portrait">Portrait</option>
         <option value="landscape">Landscape</option>
