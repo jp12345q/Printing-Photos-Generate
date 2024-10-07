@@ -5,26 +5,58 @@ fetch('form/imageform.html')
     .then(data => {
         document.getElementById('inputform').innerHTML = data;
 
-    const imageUploadInput = document.getElementById('imageUpload');
-    const imageCountMessage = document.getElementById('imageCountMessage');
-    let uploadedImages = [];
+        let uploadedImages = [];
 
-    // Update the image count message and store the images
+        // Get id from imageform.html
+        const imageUploadInput = document.getElementById('imageUpload');
+        const imageUrlInput = document.getElementById('imageUrl');
+        const imageCountMessage = document.getElementById('imageCountMessage');
+        
+        // Function to update the image count message
+        function updateImageCount() {
+            imageCountMessage.textContent = `${uploadedImages.length} image(s) added.`;
+        }
+        
+    // Handle file input uploads (allow duplicates)
     imageUploadInput.addEventListener('change', function() {
-    const newFiles = Array.from(imageUploadInput.files);
-    uploadedImages = [...uploadedImages, ...newFiles];  // Accumulate the images
-    imageCountMessage.textContent = `${uploadedImages.length} image(s) added.`;
+        const newFiles = Array.from(imageUploadInput.files);
+
+        newFiles.forEach(file => {
+            uploadedImages.push(file);
+        });
+
+        imageUploadInput.value = '';
+        updateImageCount();
     });
 
+    // Handle image URL input when pressing Enter
+    imageUrlInput.addEventListener('keydown', async function(event) {
+        if (event.key === 'Enter') {  // Trigger when Enter key is pressed
+            const url = imageUrlInput.value;
+            if (url) {
+                try {
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+
+                    // Convert blob to file-like object and store it
+                    const file = new File([blob], 'uploaded_image', { type: blob.type });
+                    uploadedImages.push(file);
+                    updateImageCount();
+                    imageUrlInput.value = '';  // Clear the URL input field
+                } catch (error) {
+                    alert('Failed to load image from URL.');
+                }
+            }
+        }
+    });
+
+    // Clear Button
     document.getElementById('clearButton').addEventListener('click', function() {
         // Clear image upload input
         document.getElementById('imageUpload').value = '';
-
-        // Clear the image count message
-        document.getElementById('imageCountMessage').textContent = 'No images added.';
-
-        // Clear the uploadedImages array
-        uploadedImages = [];
+        document.getElementById('imageUrl').value = '';  
+        imageCountMessage.textContent = 'No images added.'; // Reset message
+        uploadedImages = [];  // Clear image array
 
         // Reset form fields (paper size, orientation, picture size, and layout)
         document.getElementById('paper_size').selectedIndex = 0;
@@ -41,6 +73,20 @@ fetch('form/imageform.html')
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
 
+    // Paste from clipboard functionality
+    window.addEventListener('paste', (event) => {
+        const clipboardItems = event.clipboardData.items;
+        for (let item of clipboardItems) {
+            if (item.type.startsWith('image/')) {
+                const blob = item.getAsFile();
+                const file = new File([blob], 'pasted_image', { type: blob.type });
+                uploadedImages.push(file);
+                updateImageCount();
+            }
+        }
+    });
+
+    // Function for tranfer picture to pdf file
     window.generatePDF = async function() { 
         const { jsPDF } = window.jspdf;
 
@@ -48,6 +94,7 @@ fetch('form/imageform.html')
         const orientation = document.getElementById('orientation').value;
         const pictureSize = document.getElementById('picture_size').value;
         const layout = document.getElementById('layout').value;
+        const paperType = document.getElementById('paperType').value;
 
         // Determine the page size and orientation
         let doc;
@@ -100,8 +147,15 @@ fetch('form/imageform.html')
         } else if (pictureSize === '8r') {
             imgWidth = 203.2;
             imgHeight = 254;
+        } else if (pictureSize === 'A4') {
+            imgWidth = 200;
+            imgHeight = 290;
+        } else if (pictureSize === 'Legal') {
+            imgWidth = 210;
+            imgHeight = 328;
         }
 
+        // show output using canvas
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
@@ -132,50 +186,101 @@ fetch('form/imageform.html')
         const cellWidth = pageWidth / cols;
         const cellHeight = pageHeight / rows;
 
-        for (let i = 0; i < uploadedImages.length; i++) {
-            const image = uploadedImages[i];
-            const img = new Image();
-            const url = URL.createObjectURL(image);
-            
-            img.src = url;
-        
-            await new Promise((resolve) => {
-                img.onload = () => {
-                    // Higher resolution factor to enhance quality further
-                    const higherResolutionFactor = 4;  // 4x resolution for better image quality
-                    const enhancedImgWidth = imgWidth * higherResolutionFactor;
-                    const enhancedImgHeight = imgHeight * higherResolutionFactor;
-        
-                    // Set canvas to higher resolution
-                    canvas.width = enhancedImgWidth;
-                    canvas.height = enhancedImgHeight;
-        
-                    // Draw the image onto the canvas at enhanced resolution
-                    ctx.drawImage(img, 0, 0, enhancedImgWidth, enhancedImgHeight);
-        
-                    // Convert to PNG for maximum quality and lossless compression
-                    const imgData = canvas.toDataURL('image/png', 1.0);  // 1.0 ensures maximum quality for PNG
-        
-                    //Remaining picture tranfer to next paper
-                    const col = i % cols;
-                    const row = Math.floor((i % (cols * rows)) / cols);
-        
-                    // Center the image on the page
-                    const xOffset = (cellWidth - imgWidth) / 2;
-                    const yOffset = (cellHeight - imgHeight) / 2;
-        
-                    const x = col * cellWidth + xOffset;
-                    const y = row * cellHeight + yOffset;
-        
-                    // Add image to the PDF 
-                    doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'NONE');
-                    resolve();
-                };
-            });
-        
-            // Logic to add a new page if needed after the current one is full
-            if ((i + 1) % (cols * rows) === 0 && i < uploadedImages.length - 1) {
-                doc.addPage(); // Move to the next page after filling the current one
+        // Plain paper logic
+        if (paperType === 'plain') {
+            for (let i = 0; i < uploadedImages.length; i++) {
+                const image = uploadedImages[i];
+                const img = new Image();
+                const url = URL.createObjectURL(image);
+
+                img.src = url;
+
+                await new Promise((resolve) => {
+                    img.onload = () => {
+                        // Higher resolution factor for better image quality
+                        const higherResolutionFactor = 4;
+                        const enhancedImgWidth = imgWidth * higherResolutionFactor;
+                        const enhancedImgHeight = imgHeight * higherResolutionFactor;
+
+                        // Set canvas to higher resolution
+                        canvas.width = enhancedImgWidth;
+                        canvas.height = enhancedImgHeight;
+
+                        // Draw the image onto the canvas at enhanced resolution
+                        ctx.drawImage(img, 0, 0, enhancedImgWidth, enhancedImgHeight);
+
+                        // Convert to PNG for maximum quality
+                        const imgData = canvas.toDataURL('image/png', 1.0);
+
+                        // Calculate image position
+                        const col = i % cols;
+                        const row = Math.floor((i % (cols * rows)) / cols);
+
+                        const xOffset = (cellWidth - imgWidth) / 2;
+                        const yOffset = (cellHeight - imgHeight) / 2;
+
+                        const x = col * cellWidth + xOffset;
+                        const y = row * cellHeight + yOffset;
+
+                        // Add image to the PDF
+                        doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'NONE');
+                        resolve();
+                    };
+                });
+
+                // Add new page if the current page is full
+                if ((i + 1) % (cols * rows) === 0 && i < uploadedImages.length - 1) {
+                    doc.addPage();
+                }
+            }
+        }
+
+        // Glossy paper logic (different handling)
+        if (paperType === 'glossy') {
+            for (let i = 0; i < uploadedImages.length; i++) {
+                const image = uploadedImages[i];
+                const img = new Image();
+                const url = URL.createObjectURL(image);
+
+                img.src = url;
+
+                await new Promise((resolve) => {
+                    img.onload = () => {
+                        // Adjust resolution differently for glossy paper
+                        const glossyResolutionFactor = 9;  // Higher quality for glossy
+                        const enhancedImgWidth = imgWidth * glossyResolutionFactor;
+                        const enhancedImgHeight = imgHeight * glossyResolutionFactor;
+
+                        // Set canvas to glossy resolution
+                        canvas.width = enhancedImgWidth;
+                        canvas.height = enhancedImgHeight;
+
+                        // Draw the image onto the canvas at enhanced resolution
+                        ctx.drawImage(img, 0, 0, enhancedImgWidth, enhancedImgHeight);
+
+                        // Convert to PNG for maximum quality
+                        const imgData = canvas.toDataURL('image/png', 1.0);
+
+                        // Calculate image position for glossy paper
+                        const col = i % cols;
+                        const row = Math.floor((i % (cols * rows)) / cols);
+
+                        const xOffset = 0;
+                        const yOffset = 0;
+
+                        const x = col * cellWidth + xOffset;
+                        const y = row * cellHeight + yOffset;
+
+                        // Add image to the PDF for glossy paper
+                        doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'NONE');
+                        resolve();
+                    };
+                });
+
+                // Add new page after each page is filled for glossy
+                if ((i + 1) % (cols * rows) === 0 && i < uploadedImages.length - 1) {
+                    doc.addPage();
+                }
             }
         }
 
