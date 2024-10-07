@@ -2,10 +2,24 @@
 
     <!-- Input Image Section -->
     <label for="imageUpload"><span class="icon1"></span> Add pictures:</label>
-    <input style="font-size: 18px;" type="file" id="imageUpload" name="imageUpload" accept="image/*" multiple required><br>
+    <input style="font-size: 18px;" type="file" id="imageUpload" name="imageUpload" accept="image/*" multiple required><br><br>
+
+    <!-- URL Upload Input -->
+    <label for="imageUrl">Or paste image URL:</label>
+    <input style="border-radius: 10px; font-size: 22px;" type="text" id="imageUrl" placeholder="Enter image URL"><br><br>
+
     
     <!-- Message to display how many images have been uploaded -->
-    <p id="imageCountMessage" style="font-size: 19px; margin-top: 10px;">No images added.</p>
+    <p id="imageCountMessage" style="font-size: 19px; margin-top: 10px;">No images added.</p><br>
+
+    <!-- Paper Type Selection -->
+    <div class="dropdown4">
+        <label for="paperType"><span class="icon6"></span>Select Paper Type:</label>
+        <select id="paperType">
+            <option value="plain">Plain Paper</option>
+            <option value="glossy">Glossy Paper</option>
+        </select><br><br>
+    </div>
 
     <!-- Paper size Section -->
     <div class="dropdown">
@@ -39,6 +53,8 @@
             <option value="5r">5R (5"x7")</option>
             <option value="6r">6R (6"x8")</option>
             <option value="8r">8R (8"x10")</option>
+            <option value="A4">A4 Size</option>
+            <option value="Legal">Legal Size</option>
         </select><br><br>
     </div>
     

@@ -31,8 +31,9 @@ h2{
     border-radius: 20px;
     padding: 10px;
     background-color: hsl(0, 0%, 100%);
+    box-shadow: 5px 4px 3px hsl(0, 0%, 75%), -5px -4px 3px hsl(0, 0%, 75%) ;
     width: 825px;
-    height: 500px;
+    height: 630px;
     align-self: center;
     /* Apply animation */
     animation: slideDown 2s ease-in-out forwards;
