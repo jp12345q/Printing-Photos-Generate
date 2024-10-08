@@ -16,49 +16,25 @@ option{
     box-shadow: 2px 2px 3px hsl(0, 0%, 55%);
     margin-top: 10px;
 }
-.dropdown1 select{
-    background-color: hsla(0, 0%, 100%, 0.788);
-    border-radius: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-    box-shadow: 2px 2px 3px hsl(0, 0%, 55%);
-    margin-top: 10px;
-}
-.dropdown2 select{
-    background-color: hsla(0, 0%, 100%, 0.788);
-    border-radius: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-    box-shadow: 2px 2px 3px hsl(0, 0%, 55%);
-    margin-top: 10px;
-}
-.dropdown3 select{
-    background-color: hsla(0, 0%, 100%, 0.788);
-    border-radius: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-    box-shadow: 2px 2px 3px hsl(0, 0%, 55%);
-    margin-top: 10px;
-}
 
 .dropdown select:hover{
     background-color: hsl(0, 0%, 89%);
 }
-.dropdown1 select:hover{
-    background-color: hsl(0, 0%, 89%);
-}
-.dropdown2 select:hover{
-    background-color: hsl(0, 0%, 89%);
-}
-.dropdown3 select:hover{
-    background-color: hsl(0, 0%, 89%);
-}
-
 
 /*for form icon */
-.icon1{
+.icon{
     display: inline-block;
     background-image: url('/icon/image.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle; 
+    width: 20px;
+    height: 20px;
+}
+
+.icon1{
+    display: inline-block;
+    background-image: url('/icon/paper.png');
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle; 
