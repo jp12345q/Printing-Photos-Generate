@@ -50,6 +50,25 @@ fetch('form/imageform.html')
         }
     });
 
+    // Show or hide the glossy package options based on paper type selection
+    document.getElementById('paperType').addEventListener('change', function() {
+        const paperType = this.value;
+        const glossyPackageDropdown = document.getElementById('glossyPackage');
+        const layoutSelect = document.getElementById('layout');
+        const pictureSizeSelect = document.getElementById('picture_size');
+        
+        // Show package dropdown if glossy paper is selected
+        if (paperType === 'glossy') {
+            glossyPackageDropdown.style.display = 'block';
+            layoutSelect.disabled = true;
+            pictureSizeSelect.disabled = true;
+        } else {
+            glossyPackageDropdown.style.display = 'none';
+            layoutSelect.disabled = false;
+            pictureSizeSelect.disabled = false;
+        }
+    });
+
     // Clear Button
     document.getElementById('clearButton').addEventListener('click', function() {
         // Clear image upload input
@@ -95,6 +114,7 @@ fetch('form/imageform.html')
         const pictureSize = document.getElementById('picture_size').value;
         const layout = document.getElementById('layout').value;
         const paperType = document.getElementById('paperType').value;
+        const glossyPackage = document.getElementById('glossyPackage').value; 
 
         // Determine the page size and orientation
         let doc;
@@ -116,7 +136,7 @@ fetch('form/imageform.html')
                 unit: 'mm',
                 format: 'letter' // letter aka short bond paper size in mm
             });
-        }
+        }   
 
         // Picture size in mm
         let imgWidth, imgHeight;
@@ -179,12 +199,86 @@ fetch('form/imageform.html')
             rows = 3; cols = 3;
         } else if (layout === '3x4') {
             rows = 3; cols = 4;
+        } else if (layout === '4x1') {
+            rows = 4; cols = 1;
+        } else if (layout === '4x2') {
+            rows = 4; cols = 2;
+        } else if (layout === '4x3') {
+            rows = 4; cols = 3;
+        } else if (layout === '4x4') {
+            rows = 4; cols = 4;
         }
 
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
+        const canvasData = uploadedImages.map(image => URL.createObjectURL(image));
         const cellWidth = pageWidth / cols;
         const cellHeight = pageHeight / rows;
+
+        // Still not function property still package both not working also size 2by2 not changed on output
+        // Handle glossy package options
+        if (paperType === 'glossy') {
+            if (glossyPackage === '2by2') {
+                cols = 4;
+                rows = 1;
+                await handleGlossyPackage(uploadedImages, doc, cols, rows, 6, imgWidth, imgHeight, ctx, canvas);
+            } else if (glossyPackage === '1by1') {
+                cols = 5;
+                rows = 2;
+                await handleGlossyPackage(uploadedImages, doc, cols, rows, 10, imgWidth, imgHeight, ctx, canvas);
+            } else if (glossyPackage === 'both') {
+                await handleGlossyPackage(uploadedImages, doc, 4, 1 , 4, imgWidth, imgHeight, ctx, canvas);
+                await handleGlossyPackage(uploadedImages, doc, 4, 1 , 4, imgWidth, imgHeight, ctx, canvas);
+            }
+        }
+
+        // Function to handle glossy package image placement
+        async function handleGlossyPackage(images, doc, cols, rows, totalPieces, imgWidth, imgHeight, ctx, canvas) {
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const cellWidth = pageWidth / cols;
+            const cellHeight = imgHeight; 
+
+            for (let i = 0; i < totalPieces; i++) {
+                const image = images[i % images.length];
+        
+                if (image instanceof File || image instanceof Blob) {
+                    const img = new Image();
+                    const url = URL.createObjectURL(image);
+                    img.src = url;
+        
+                    await new Promise(resolve => {
+                        img.onload = () => {
+                            const glossyResolutionFactor = 9; // Higher resolution for glossy paper
+                            const enhancedImgWidth = imgWidth * glossyResolutionFactor;
+                            const enhancedImgHeight = imgHeight * glossyResolutionFactor;
+        
+                            // Set canvas size for glossy
+                            canvas.width = enhancedImgWidth;
+                            canvas.height = enhancedImgHeight;
+        
+                            ctx.drawImage(img, 0, 0, enhancedImgWidth, enhancedImgHeight);
+                            const imgData = canvas.toDataURL('image/png', 1.0);
+        
+                            const col = i % cols;
+                            const row = Math.floor(i / cols);
+        
+                            // No offsets (xOffset and yOffset set to 0) for continuous placement
+                            const xOffset = 0;
+                            const yOffset = 0;
+        
+                            // Calculate the exact x and y positions to start from the top left
+                            const x = col * cellWidth + xOffset;
+                            const y = row * cellHeight + yOffset;
+        
+                            // Add image to the PDF
+                            doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'NONE');
+                            resolve();
+                        };
+                    });
+                }
+            }
+        }
 
         // Plain paper logic
         if (paperType === 'plain') {
@@ -229,55 +323,6 @@ fetch('form/imageform.html')
                 });
 
                 // Add new page if the current page is full
-                if ((i + 1) % (cols * rows) === 0 && i < uploadedImages.length - 1) {
-                    doc.addPage();
-                }
-            }
-        }
-
-        // Glossy paper logic (different handling)
-        if (paperType === 'glossy') {
-            for (let i = 0; i < uploadedImages.length; i++) {
-                const image = uploadedImages[i];
-                const img = new Image();
-                const url = URL.createObjectURL(image);
-
-                img.src = url;
-
-                await new Promise((resolve) => {
-                    img.onload = () => {
-                        // Adjust resolution differently for glossy paper
-                        const glossyResolutionFactor = 9;  // Higher quality for glossy
-                        const enhancedImgWidth = imgWidth * glossyResolutionFactor;
-                        const enhancedImgHeight = imgHeight * glossyResolutionFactor;
-
-                        // Set canvas to glossy resolution
-                        canvas.width = enhancedImgWidth;
-                        canvas.height = enhancedImgHeight;
-
-                        // Draw the image onto the canvas at enhanced resolution
-                        ctx.drawImage(img, 0, 0, enhancedImgWidth, enhancedImgHeight);
-
-                        // Convert to PNG for maximum quality
-                        const imgData = canvas.toDataURL('image/png', 1.0);
-
-                        // Calculate image position for glossy paper
-                        const col = i % cols;
-                        const row = Math.floor((i % (cols * rows)) / cols);
-
-                        const xOffset = 0;
-                        const yOffset = 0;
-
-                        const x = col * cellWidth + xOffset;
-                        const y = row * cellHeight + yOffset;
-
-                        // Add image to the PDF for glossy paper
-                        doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'NONE');
-                        resolve();
-                    };
-                });
-
-                // Add new page after each page is filled for glossy
                 if ((i + 1) % (cols * rows) === 0 && i < uploadedImages.length - 1) {
                     doc.addPage();
                 }
