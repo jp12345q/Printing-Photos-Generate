@@ -8,9 +8,11 @@
     <label for="imageUrl">Or paste image URL:</label>
     <input style="border-radius: 10px; font-size: 21px;" type="text" id="imageUrl" placeholder="Copy & Paste image URL"><br><br>
 
-    
-    <!-- Message to display how many images have been uploaded -->
-    <p id="imageCountMessage" style="font-size: 19px; margin-top: 10px;">No images added.</p>
+    <!-- Image List and Message Section -->
+    <div class="image-section">
+        <p id="imageCountMessage" class="image-message">No images added.</p>
+        <ul id="imageList" class="image-list"></ul>
+    </div>
 
     <!-- Paper Type Selection -->
     <div class="dropdown">
@@ -22,11 +24,15 @@
     </div>
 
     <!-- Glossy Package Dropdown (Initially Hidden) -->
-    <select id="glossyPackage" style="display: none;">
-        <option value="2by2">2by2 Package (6 pieces)</option>
-        <option value="1by1">1by1 Package (10 pieces)</option>
-        <option value="both">Both 2by2 and 1by1 Packages (4 pieces each)</option>
-    </select><br><br>
+    <div class="glossy-drop">
+        <select id="glossyPackage" class="glossyPackage">
+            <optgroup label="Package Picture">
+                <option value="2by2">2by2 Package (6 pieces)</option>
+                <option value="1by1">1by1 Package (10 pieces)</option>
+                <option value="both">Both 2by2 and 1by1 Packages (4 pieces each)</option>
+            </optgroup>
+        </select>
+    </div>
 
     <!-- Paper size Section -->
     <div class="dropdown">

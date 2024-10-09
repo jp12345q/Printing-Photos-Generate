@@ -11,12 +11,42 @@ fetch('form/imageform.html')
         const imageUploadInput = document.getElementById('imageUpload');
         const imageUrlInput = document.getElementById('imageUrl');
         const imageCountMessage = document.getElementById('imageCountMessage');
-        
-        // Function to update the image count message
+        const imageList = document.getElementById('imageList');
+
+        // Function to update the image count message and list of images
         function updateImageCount() {
             imageCountMessage.textContent = `${uploadedImages.length} image(s) added.`;
+            updateImageList(); 
         }
+
+        // Function to update the <ul> with the uploaded images
+        function updateImageList() {
+            imageList.innerHTML = ''; 
+
+            uploadedImages.forEach((image, index) => {
+                const li = document.createElement('li');
+                li.textContent = image.name;
         
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.classList.add('delete-btn'); 
+                deleteButton.addEventListener('click', () => {
+                    uploadedImages.splice(index, 1); 
+                    updateImageList(); 
+                    updateImageCount(); 
+                });
+        
+                li.appendChild(deleteButton);
+                imageList.appendChild(li);
+            });
+        }
+
+        // Function to remove an image by index
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);  // Remove the selected image
+            updateImageCount();  // Update the UI after deletion
+        }
+
     // Handle file input uploads (allow duplicates)
     imageUploadInput.addEventListener('change', function() {
         const newFiles = Array.from(imageUploadInput.files);
@@ -79,7 +109,7 @@ fetch('form/imageform.html')
     document.getElementById('clearButton').addEventListener('click', function() {
         // Clear image upload input
         document.getElementById('imageUpload').value = '';
-        document.getElementById('imageUrl').value = '';  
+        document.getElementById('imageUrl').value = '';
         imageCountMessage.textContent = 'No images added.'; // Reset message
         uploadedImages = [];  // Clear image array
 
@@ -92,6 +122,7 @@ fetch('form/imageform.html')
         document.getElementById('glossyPackage').style.display = 'none';
         document.getElementById('customHeight').value = '';
         document.getElementById('customWidth').value = '';
+        document.getElementById('imageList').innerHTML = ''; 
 
         // Clear the PDF preview iframe
         document.getElementById('pdfPreview').src = '';

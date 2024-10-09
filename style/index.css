@@ -12,7 +12,6 @@ body{
     padding: auto;
 }
 
-
 h1::first-letter{
     font-size: 1.5em;
     font-style: italic;
@@ -33,11 +32,148 @@ h2{
     background-color: hsl(0, 0%, 100%);
     box-shadow: 5px 4px 3px hsl(0, 0%, 75%), -5px -4px 3px hsl(0, 0%, 75%) ;
     width: 825px;
-    height: 750px;
+    height: 700px;
     align-self: center;
-    /* Apply animation */
     animation: slideDown 2s ease-in-out forwards;
 }
+
+/*Button*/
+.Submit {
+    margin: 10px;
+    font-size: 22px;
+    border-radius: 12px;
+    padding: 10px;
+    color: black;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+}
+
+.Submit::after {
+    content:"";
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: hsl(101, 70%, 49%);
+    left: 0;
+    top: 0;
+}
+
+.Submit::before {
+    content:"";
+    background: linear-gradient(
+        45deg,
+        hsl(2, 100%, 50%), hsl(64, 100%, 50%), hsl(108, 100%, 50%), hsl(172, 100%, 50%),
+        hsl(229, 100%, 50%), hsl(261, 100%, 50%), hsl(288, 100%, 50%), hsl(332, 100%, 50%)
+    );
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 600%;
+    z-index: -1;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    filter: blur(8px);
+    animation: glowing 20s linear infinite;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+    opacity: 0;
+}
+
+.Submit:hover::before{
+    opacity: 1;
+}
+
+.Submit:active::after{
+    background: transparent;
+}
+
+.Submit:active{
+    color: white;
+    font-weight: bold;
+}
+
+.Clear {
+    margin: 10px;
+    font-size: 22px;
+    border-radius: 12px;
+    padding: 10px;
+    color: black;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+}
+
+.Clear::after {
+    content:"";
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: hsl(7, 70%, 49%);
+    left: 0;
+    top: 0;
+}
+
+.Clear::before {
+    content:"";
+    background: linear-gradient(
+        45deg,
+        hsl(2, 100%, 50%), hsl(64, 100%, 50%), hsl(108, 100%, 50%), hsl(172, 100%, 50%),
+        hsl(229, 100%, 50%), hsl(261, 100%, 50%), hsl(288, 100%, 50%), hsl(332, 100%, 50%)
+    );
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 600%;
+    z-index: -1;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    filter: blur(8px);
+    animation: glowing 20s linear infinite;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+    opacity: 0;
+}
+
+.Clear:hover::before{
+    opacity: 1;
+}
+
+.Clear:active::after{
+    background: transparent;
+}
+
+.Clear:active{
+    color: white;
+    font-weight: bold;
+}
+
+/*Preview*/
+
+.preview{
+    background-color: hsl(205, 67%, 82%);
+    padding: auto;
+    border: 5px solid hsl(204, 58%, 77%);;
+    width: 950px;
+    height: 880px;
+    border-radius: 15px;
+    animation: slideRight 2s ease-in-out forwards;
+}
+
+
+/* Screen */
+
+@media screen and (max-width:600px){
+
+}
+
+/* Animation */
 @keyframes slideDown {
     /* Initial state (before animation starts) */
     0% {
@@ -52,52 +188,6 @@ h2{
     }
 }
 
-/*Button*/
-.Submit{
-    font-size: 22px;
-    font-style: bold;
-    border-radius: 10px;
-    padding: 5px;
-}
-
-.Clear{
-    font-size: 22px;
-    font-style: bold;
-    border-radius: 10px;
-    padding: 5px;
-}
-
-#submitButton{
-    background-color: hsl(118, 52%, 52%);
-    margin: 10px;
-    box-shadow: 4px 2px 3px hsl(0, 0%, 56%);
-}
-
-#submitButton:hover{
-    background-color: hsl(113, 22%, 77%);
-}
-
-#clearButton{
-    background-color: hsl(0, 51%, 50%);
-    margin: 10px;
-    box-shadow: 4px 2px 3px hsl(0, 0%, 56%);
-}
-
-#clearButton:hover{
-    background-color: hsl(0, 51%, 71%);
-}
-
-/*Preview*/
-
-.preview{
-    background-color: hsl(205, 67%, 82%);
-    padding: auto;
-    border: 5px solid hsl(204, 58%, 77%);;
-    width: 950px;
-    height: 880px;
-    border-radius: 15px;
-    animation: slideRight 2s ease-in-out forwards;
-}
 @keyframes slideRight {
     0% {
         transform: translateX(100%);
@@ -110,8 +200,8 @@ h2{
     }
 }
 
-/* Screen */
-
-@media screen and (max-width:600px){
-
+@keyframes glowing {
+    0% {background-position: 0 0;}
+    50% {background-position: 400% 0;}
+    100% {background-position: 0 0;}
 }
