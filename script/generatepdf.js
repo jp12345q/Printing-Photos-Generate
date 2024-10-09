@@ -221,23 +221,48 @@ fetch('form/imageform.html')
             if (glossyPackage === '2by2') {
                 cols = 4;
                 rows = 1;
+                imgWidth = 58.8;
+                imgHeight = 58.8;
                 await handleGlossyPackage(uploadedImages, doc, cols, rows, 6, imgWidth, imgHeight, ctx, canvas);
             } else if (glossyPackage === '1by1') {
                 cols = 5;
                 rows = 2;
+                imgWidth = 25.4;
+                imgHeight = 25.4;
                 await handleGlossyPackage(uploadedImages, doc, cols, rows, 10, imgWidth, imgHeight, ctx, canvas);
             } else if (glossyPackage === 'both') {
-                await handleGlossyPackage(uploadedImages, doc, 4, 1 , 4, imgWidth, imgHeight, ctx, canvas);
-                await handleGlossyPackage(uploadedImages, doc, 4, 1 , 4, imgWidth, imgHeight, ctx, canvas);
+                // Handle 2by2 layout first
+                cols = 4;
+                rows = 1;
+                imgWidth = 50.8;  // Set width for 2by2
+                imgHeight = 50.8; // Set height for 2by2
+                await handleGlossyPackage(uploadedImages, doc, cols, rows, 4, imgWidth, imgHeight, ctx, canvas);
+
+                // Reset position for next row to prevent spacing issues
+                const resetYPosition = true;
+
+                // Handle 1by1 layout next
+                cols = 4;
+                rows = 1;
+                imgWidth = 25.4;  // Set width for 1by1
+                imgHeight = 25.4; // Set height for 1by1
+                await handleGlossyPackage(uploadedImages, doc, cols, rows, 4, imgWidth, imgHeight, ctx, canvas, resetYPosition);
             }
         }
 
         // Function to handle glossy package image placement
-        async function handleGlossyPackage(images, doc, cols, rows, totalPieces, imgWidth, imgHeight, ctx, canvas) {
+        async function handleGlossyPackage(images, doc, cols, rows, totalPieces, imgWidth, imgHeight, ctx, canvas, esetYPosition = false) {
             const pageWidth = doc.internal.pageSize.getWidth();
             const pageHeight = doc.internal.pageSize.getHeight();
             const cellWidth = pageWidth / cols;
             const cellHeight = imgHeight; 
+
+            let yPosition = 0;  // This keeps track of the Y position for rows
+
+            if (resetYPosition) {
+                // Reset Y position when starting a new layout (e.g., from 2by2 to 1by1)
+                yPosition = 0;
+            }
 
             for (let i = 0; i < totalPieces; i++) {
                 const image = images[i % images.length];
@@ -262,15 +287,14 @@ fetch('form/imageform.html')
         
                             const col = i % cols;
                             const row = Math.floor(i / cols);
-        
-                            // No offsets (xOffset and yOffset set to 0) for continuous placement
+                            
+                            // No offsets for continuous placement, place images directly
                             const xOffset = 0;
                             const yOffset = 0;
-        
-                            // Calculate the exact x and y positions to start from the top left
+
                             const x = col * cellWidth + xOffset;
-                            const y = row * cellHeight + yOffset;
-        
+                            const y = row * cellHeight + yOffset + yPosition;
+                
                             // Add image to the PDF
                             doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'NONE');
                             resolve();
@@ -292,7 +316,7 @@ fetch('form/imageform.html')
                 await new Promise((resolve) => {
                     img.onload = () => {
                         // Higher resolution factor for better image quality
-                        const higherResolutionFactor = 4;
+                        const higherResolutionFactor = 6;
                         const enhancedImgWidth = imgWidth * higherResolutionFactor;
                         const enhancedImgHeight = imgHeight * higherResolutionFactor;
 
