@@ -21,6 +21,19 @@ option{
     background-color: hsl(0, 0%, 89%);
 }
 
+/*for input*/
+#customWidth{
+    border-radius: 10px; 
+    font-size: 21px;
+    width: 150px;
+}
+
+#customHeight{
+    border-radius: 10px; 
+    font-size: 21px;
+    width: 150px;
+}
+
 /*for form icon */
 .icon{
     display: inline-block;

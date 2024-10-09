@@ -56,16 +56,22 @@ fetch('form/imageform.html')
         const glossyPackageDropdown = document.getElementById('glossyPackage');
         const layoutSelect = document.getElementById('layout');
         const pictureSizeSelect = document.getElementById('picture_size');
+        const customSizeWidth = document.getElementById('customWidth');
+        const customSizeHeight = document.getElementById('customHeight');
         
         // Show package dropdown if glossy paper is selected
         if (paperType === 'glossy') {
             glossyPackageDropdown.style.display = 'block';
             layoutSelect.disabled = true;
             pictureSizeSelect.disabled = true;
+            customSizeWidth.disabled = true;
+            customSizeHeight.disabled = true;
         } else {
             glossyPackageDropdown.style.display = 'none';
             layoutSelect.disabled = false;
             pictureSizeSelect.disabled = false;
+            customSizeWidth.disabled = false;
+            customSizeHeight.disabled = false;
         }
     });
 
@@ -77,11 +83,15 @@ fetch('form/imageform.html')
         imageCountMessage.textContent = 'No images added.'; // Reset message
         uploadedImages = [];  // Clear image array
 
-        // Reset form fields (paper size, orientation, picture size, and layout)
+        // Reset form fields
         document.getElementById('paper_size').selectedIndex = 0;
         document.getElementById('orientation').selectedIndex = 0;
         document.getElementById('picture_size').selectedIndex = 0;
         document.getElementById('layout').selectedIndex = 0;
+        document.getElementById('paperType').selectedIndex = 0;
+        document.getElementById('glossyPackage').style.display = 'none';
+        document.getElementById('customHeight').value = '';
+        document.getElementById('customWidth').value = '';
 
         // Clear the PDF preview iframe
         document.getElementById('pdfPreview').src = '';
@@ -90,6 +100,18 @@ fetch('form/imageform.html')
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Re-enable the dropdowns and inputs
+        const layoutSelect = document.getElementById('layout');
+        const pictureSizeSelect = document.getElementById('picture_size');
+        const customSizeWidth = document.getElementById('customWidth');
+        const customSizeHeight = document.getElementById('customHeight');
+
+        layoutSelect.disabled = false;
+        pictureSizeSelect.disabled = false;
+        customSizeWidth.disabled = false;
+        customSizeHeight.disabled = false;
+
     });
 
     // Paste from clipboard functionality
@@ -175,6 +197,24 @@ fetch('form/imageform.html')
             imgHeight = 328;
         }
 
+        // Convert inches to pixels if custom dimensions are provided
+        function inchesToPixels(inches) {
+            const dpi = 96; // Standard DPI (Dots Per Inch)
+            return inches * dpi;
+        }
+
+        // Check if the user provided custom dimensions
+        const customWidthInches = parseFloat(document.getElementById('customWidth').value);
+        const customHeightInches = parseFloat(document.getElementById('customHeight').value);
+
+        if (!isNaN(customWidthInches) && !isNaN(customHeightInches)) {
+            // Convert the custom dimensions from inches to mm
+            imgWidth = inchesToPixels(customWidthInches) * 0.264583;  // 1 pixel = 0.264583 mm
+            imgHeight = inchesToPixels(customHeightInches) * 0.264583;
+        }
+
+        console.log(`Image dimensions: ${imgWidth} mm width, ${imgHeight} mm height`);
+
         // show output using canvas
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -215,7 +255,6 @@ fetch('form/imageform.html')
         const cellWidth = pageWidth / cols;
         const cellHeight = pageHeight / rows;
 
-        // Still not function property still package both not working also size 2by2 not changed on output
         // Handle glossy package options
         if (paperType === 'glossy') {
             if (glossyPackage === '2by2') {
@@ -231,37 +270,36 @@ fetch('form/imageform.html')
                 imgHeight = 25.4;
                 await handleGlossyPackage(uploadedImages, doc, cols, rows, 10, imgWidth, imgHeight, ctx, canvas);
             } else if (glossyPackage === 'both') {
-                // Handle 2by2 layout first
+                // Handle 2by2 layout 
                 cols = 4;
                 rows = 1;
-                imgWidth = 50.8;  // Set width for 2by2
-                imgHeight = 50.8; // Set height for 2by2
+                imgWidth = 58.8;  
+                imgHeight = 58.8;
                 await handleGlossyPackage(uploadedImages, doc, cols, rows, 4, imgWidth, imgHeight, ctx, canvas);
 
                 // Reset position for next row to prevent spacing issues
                 const resetYPosition = true;
-
-                // Handle 1by1 layout next
+                // Handle 1by1 layout 
                 cols = 4;
                 rows = 1;
-                imgWidth = 25.4;  // Set width for 1by1
-                imgHeight = 25.4; // Set height for 1by1
+                imgWidth = 25.4; 
+                imgHeight = 25.4; 
                 await handleGlossyPackage(uploadedImages, doc, cols, rows, 4, imgWidth, imgHeight, ctx, canvas, resetYPosition);
             }
         }
 
         // Function to handle glossy package image placement
-        async function handleGlossyPackage(images, doc, cols, rows, totalPieces, imgWidth, imgHeight, ctx, canvas, esetYPosition = false) {
+        async function handleGlossyPackage(images, doc, cols, rows, totalPieces, imgWidth, imgHeight, ctx, canvas, resetYPosition = false) {
             const pageWidth = doc.internal.pageSize.getWidth();
             const pageHeight = doc.internal.pageSize.getHeight();
             const cellWidth = pageWidth / cols;
             const cellHeight = imgHeight; 
 
-            let yPosition = 0;  // This keeps track of the Y position for rows
+            let yPosition = 8;  // This keeps track of the Y position for rows
 
             if (resetYPosition) {
                 // Reset Y position when starting a new layout (e.g., from 2by2 to 1by1)
-                yPosition = 0;
+                yPosition = 70;
             }
 
             for (let i = 0; i < totalPieces; i++) {

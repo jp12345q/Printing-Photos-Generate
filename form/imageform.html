@@ -6,7 +6,7 @@
 
     <!-- URL Upload Input -->
     <label for="imageUrl">Or paste image URL:</label>
-    <input style="border-radius: 10px; font-size: 22px;" type="text" id="imageUrl" placeholder="Enter image URL"><br><br>
+    <input style="border-radius: 10px; font-size: 21px;" type="text" id="imageUrl" placeholder="Copy & Paste image URL"><br><br>
 
     
     <!-- Message to display how many images have been uploaded -->
@@ -47,7 +47,7 @@
         </select><br><br>
     </div>
     
-    <!-- Pictuer size Section -->
+    <!-- Picture size Section -->
     <div class="dropdown">
         <label for="picture_size"><span class="icon4"></span> Select picture size:</label>
         <select id="picture_size" required>
@@ -63,6 +63,11 @@
             <option value="A4">A4 Size</option>
             <option value="Legal">Legal Size</option>
         </select><br><br>
+        
+        <!-- Picture Size but User input size-->
+        <label for="customWidth" for="customHeight">Or custom picture size Width and Height (in inches):</label>
+        <input type="number" id="customWidth" step="0.01" min="0" placeholder="Enter width">
+        <input type="number" id="customHeight" step="0.01" min="0" placeholder="Enter height"><br><br>
     </div>
     
     <!-- Layout Output Section -->
