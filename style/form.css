@@ -40,39 +40,55 @@ option{
     margin-top: 10px;
 }
 
-.image-list{
-    display: block;
+.imagelist{
+    background-color: hsl(0, 14%, 99%);
+    font-size: 15px;
     width: auto; 
-    padding: 10px;
-    margin: 5px 0;
-    border: none;
+    padding: 5px;
+    margin: 10px 0;
+    margin-left: 20px;
+    border-radius: 10px;
+    border: 3px groove #ccc;
     max-height: 150px; 
     overflow: auto;
-    top: 190px;
-    left: 150px;
+    top: 195px;
+    left: 160px;
     position: fixed;
 }
 
-.image-list li {
+.imagelist:hover {
+    background-color: hsl(0, 1%, 71%);
+
+}
+
+#imageDropdown {
+    width: auto; 
+    overflow: auto;
+    top: 200px;
+    left: 315px;
+    position: fixed;
     box-shadow: 3px 2px 3px hsl(0, 0%, 75%), -3px -2px 3px hsl(0, 0%, 75%);
     font-size: 18px;
     color: white;
     list-style-type: none;
-    padding: 8px;
-    margin-top: 1px;
+    padding: auto;
+    margin: auto;
     background-color: hsl(0, 1%, 40%);
     border-radius: 3px;
     cursor: pointer;
     border: 3px outset #ccc;
     transition: background-color 0.3s;
 }
-
-.image-list li:hover {
+#imageDropdown:hover{
     background-color: hsl(0, 0%, 58%);
-
 }
 
-.image-list .delete-btn{
+.image-item{
+    margin: 5px;
+    padding: 5px;
+}
+
+#imageDropdown .delete-btn{
     float: right;
     margin-left: 10px;
     background-color: hsla(0, 66%, 53%, 0.699);
@@ -82,7 +98,7 @@ option{
     cursor: pointer;
 }
 
-.image-list .delete-btn:hover {
+#imageDropdown .delete-btn:hover {
     background-color: hsla(0, 48%, 36%, 0.699);
 }
 
@@ -216,6 +232,10 @@ for button icon
     }
     option{
         font-size: 16px;
+    }
+    .imagelist{
+        top: 165px;
+        left: 150px;
     }
 
 }

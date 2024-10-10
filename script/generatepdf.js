@@ -11,7 +11,6 @@ fetch('form/imageform.html')
         const imageUploadInput = document.getElementById('imageUpload');
         const imageUrlInput = document.getElementById('imageUrl');
         const imageCountMessage = document.getElementById('imageCountMessage');
-        const imageList = document.getElementById('imageList');
 
         // Function to update the image count message and list of images
         function updateImageCount() {
@@ -19,33 +18,54 @@ fetch('form/imageform.html')
             updateImageList(); 
         }
 
-        // Function to update the <ul> with the uploaded images
+        // Function to update the dropdown with the uploaded images
         function updateImageList() {
-            imageList.innerHTML = ''; 
+            const imageDropdown = document.getElementById('imageDropdown');
+            imageDropdown.innerHTML = ''; // Clear previous images
 
             uploadedImages.forEach((image, index) => {
-                const li = document.createElement('li');
-                li.textContent = image.name;
-        
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item'; // Add a class for styling
+
+                const imageName = document.createElement('span');
+                imageName.textContent = image.name;
+                
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
-                deleteButton.classList.add('delete-btn'); 
+                deleteButton.classList.add('delete-btn');
+                
+                // Delete image on button click
                 deleteButton.addEventListener('click', () => {
-                    uploadedImages.splice(index, 1); 
-                    updateImageList(); 
-                    updateImageCount(); 
+                    uploadedImages.splice(index, 1); // Remove the image from the array
+                    updateImageCount(); // Update the count message
+                    updateImageList(); // Refresh the dropdown
                 });
-        
-                li.appendChild(deleteButton);
-                imageList.appendChild(li);
+
+                imageItem.appendChild(imageName); // Add image name
+                imageItem.appendChild(deleteButton); // Add delete button
+                imageDropdown.appendChild(imageItem); // Add item to dropdown
             });
         }
 
-        // Function to remove an image by index
-        function removeImage(index) {
-            uploadedImages.splice(index, 1);  // Remove the selected image
-            updateImageCount();  // Update the UI after deletion
-        }
+        // Toggle image dropdown visibility
+        document.getElementById('toggleImageListButton').addEventListener('click', () => {
+            const imageDropdown = document.getElementById('imageDropdown');
+            imageDropdown.style.display = imageDropdown.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Handle file input uploads (allow duplicates)
+        imageUploadInput.addEventListener('change', function() {
+            const newFiles = Array.from(imageUploadInput.files);
+            
+            newFiles.forEach(file => {
+                uploadedImages.push(file);
+            });
+
+            imageUploadInput.value = '';
+            updateImageCount();
+            updateImageList(); // Update the dropdown list
+        });
+        
 
     // Handle file input uploads (allow duplicates)
     imageUploadInput.addEventListener('change', function() {
@@ -112,6 +132,7 @@ fetch('form/imageform.html')
         document.getElementById('imageUrl').value = '';
         imageCountMessage.textContent = 'No images added.'; // Reset message
         uploadedImages = [];  // Clear image array
+        updateImageList(); 
 
         // Reset form fields
         document.getElementById('paper_size').selectedIndex = 0;
@@ -122,7 +143,9 @@ fetch('form/imageform.html')
         document.getElementById('glossyPackage').style.display = 'none';
         document.getElementById('customHeight').value = '';
         document.getElementById('customWidth').value = '';
-        document.getElementById('imageList').innerHTML = ''; 
+
+        const imageDropdown = document.getElementById('imageDropdown');
+        imageDropdown.style.display = 'none';
 
         // Clear the PDF preview iframe
         document.getElementById('pdfPreview').src = '';
