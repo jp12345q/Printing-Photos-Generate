@@ -6,6 +6,9 @@ select{
 }
 option{
     font-size: 18px;
+}
+.form{
+    margin-left: 20px;
 }   
 
 /*
@@ -201,6 +204,22 @@ for button icon
     height: 25px;
     margin-right: 5px;
 }
+
+/*Screen for mobile*/
+/* Still ongoing */
+@media screen and (max-width:600px){
+    label{
+        font-size: 16px;
+    }
+    select{
+        font-size: 16px;
+    }
+    option{
+        font-size: 16px;
+    }
+
+}
+
 
 /*Animation*/
 @keyframes slideLeft {
