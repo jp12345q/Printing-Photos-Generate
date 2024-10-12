@@ -138,7 +138,7 @@ option{
 
 .icon{
     display: inline-block;
-    background-image: url('/icon/image.png');
+    background-image: url('../icon/image.png');
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle; 
@@ -148,7 +148,7 @@ option{
 
 .icon1{
     display: inline-block;
-    background-image: url('/icon/paper.png');
+    background-image: url('../icon/paper.png');
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle; 
@@ -158,7 +158,7 @@ option{
 
 .icon2{
     display: inline-block;
-    background-image: url('/icon/paper-size.png');
+    background-image: url('../icon/paper-size.png');
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle;
@@ -168,7 +168,7 @@ option{
 
 .icon3{
     display: inline-block;
-    background-image: url('/icon/orientation.png');
+    background-image: url('../icon/orientation.png');
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle; 
@@ -178,7 +178,7 @@ option{
 
 .icon4{
     display: inline-block;
-    background-image: url('/icon/resize.png');
+    background-image: url('../icon/resize.png');
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle; 
@@ -188,7 +188,7 @@ option{
 
 .icon5{
     display: inline-block;
-    background-image: url('/icon/collage.png');
+    background-image: url('../icon/collage.png');
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle; 
@@ -202,7 +202,7 @@ for button icon
 
 .icon6{
     display: inline-block;
-    background-image: url('/icon/magic-wand.png');
+    background-image: url('../icon/magic-wand.png');
     background-size: contain; 
     background-repeat: no-repeat; 
     vertical-align: middle; 
@@ -213,7 +213,7 @@ for button icon
 
 .icon7{
     display: inline-block;
-    background-image: url('/icon/archeology.png');
+    background-image: url('../icon/archeology.png');
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle; 

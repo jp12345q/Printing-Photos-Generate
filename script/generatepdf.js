@@ -411,6 +411,11 @@ fetch('form/imageform.html')
 
         // Plain paper logic
         if (paperType === 'plain') {
+            if (uploadedImages.length === 0) {
+                console.error('No images uploaded to generate PDF.');
+                return; // Early exit if there are no images
+            }
+
             for (let i = 0; i < uploadedImages.length; i++) {
                 const image = uploadedImages[i];
                 const img = new Image();
@@ -448,6 +453,10 @@ fetch('form/imageform.html')
                         // Add image to the PDF
                         doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'NONE');
                         resolve();
+                    };
+                    img.onerror = (error) => {
+                        console.error('Error loading image:', error);
+                        reject(error);
                     };
                 });
 
