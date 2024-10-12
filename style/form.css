@@ -138,7 +138,7 @@ option{
 
 .icon{
     display: inline-block;
-    background-image: url('icon/image.png');
+    background-image: url('../icon/image.png');
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle; 
