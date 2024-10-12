@@ -31,6 +31,14 @@
         </div>
 
         <canvas id="canvas" style="display: none;"></canvas>
+
+                <!-- Warning Modal -->
+        <div id="warningModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" onclick="document.getElementById('warningModal').style.display='none'">&times;</span>
+                <p>No images uploaded. Please upload at least one image before generating the PDF.</p>
+            </div>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
