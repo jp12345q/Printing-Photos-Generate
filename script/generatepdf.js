@@ -100,7 +100,7 @@ fetch('form/imageform.html')
         }
     });
 
-    // Show or hide the glossy package options based on paper type selection
+        // Show or hide the glossy package options based on paper type selection
     document.getElementById('paperType').addEventListener('change', function() {
         const paperType = this.value;
         const glossyPackageDropdown = document.getElementById('glossyPackage');
@@ -274,35 +274,48 @@ fetch('form/imageform.html')
         const ctx = canvas.getContext('2d');
 
         // Determine the layout (rows and columns)
+        // Check if the orientation is landscape
+        const isLandscape = (orientation === 'landscape');
+
+        // Adjust columns and rows based on layout and orientation
         let cols, rows;
+
         if (layout === '1x1') {
             rows = 1; cols = 1;
         } else if (layout === '1x2') {
-            rows = 2; cols = 1;
+            rows = isLandscape ? 1 : 2; 
+            cols = isLandscape ? 2 : 1;
         } else if (layout === '1x3') {
-            rows = 3; cols = 1;
+            rows = isLandscape ? 1 : 3; 
+            cols = isLandscape ? 3 : 1;
         } else if (layout === '2x1') {
-            rows = 1; cols = 2;
+            rows = isLandscape ? 2 : 1; 
+            cols = isLandscape ? 1 : 2;
         } else if (layout === '2x2') {
-            rows = 2; cols = 2;
+            rows = 2; cols = 2; // Same for both orientations
         } else if (layout === '2x3') {
-            rows = 3; cols = 2;
+            rows = isLandscape ? 2 : 3; 
+            cols = isLandscape ? 3 : 2;
         } else if (layout === '3x2') {
-            rows = 2; cols = 3;
+            rows = isLandscape ? 3 : 2; 
+            cols = isLandscape ? 2 : 3;
         } else if (layout === '3x3') {
-            rows = 3; cols = 3;
+            rows = 3; cols = 3; // Same for both orientations
         } else if (layout === '3x4') {
-            rows = 3; cols = 4;
+            rows = isLandscape ? 3 : 4; 
+            cols = isLandscape ? 4 : 3;
         } else if (layout === '4x1') {
-            rows = 4; cols = 1;
+            rows = isLandscape ? 4 : 1; 
+            cols = isLandscape ? 1 : 4;
         } else if (layout === '4x2') {
-            rows = 4; cols = 2;
+            rows = isLandscape ? 4 : 2; 
+            cols = isLandscape ? 2 : 4;
         } else if (layout === '4x3') {
-            rows = 4; cols = 3;
+            rows = isLandscape ? 4 : 3; 
+            cols = isLandscape ? 3 : 4;
         } else if (layout === '4x4') {
-            rows = 4; cols = 4;
+            rows = 4; cols = 4; // Same for both orientations
         }
-
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
         const canvasData = uploadedImages.map(image => URL.createObjectURL(image));

@@ -229,7 +229,7 @@ h2{
     width: calc(100% + 5px);
     height: calc(100% + 5px);
     filter: blur(20px);
-    animation: spin 5s linear infinite;
+    animation: spin 10s linear infinite;
     transition: opacity .3s ease-in-out;
     border-radius: 10px;
     opacity: 1;

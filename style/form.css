@@ -135,6 +135,7 @@ option{
 }
 
 /*for form icon */
+
 .icon{
     display: inline-block;
     background-image: url('/icon/image.png');
