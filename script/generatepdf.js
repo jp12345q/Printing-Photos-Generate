@@ -418,6 +418,13 @@ fetch('form/imageform.html')
 
             for (let i = 0; i < uploadedImages.length; i++) {
                 const image = uploadedImages[i];
+
+                // Check if the image exists and is a File object
+                if (!image || !(image instanceof File)) {
+                    console.error('Uploaded image is not valid:', image);
+                    continue; // Skip this iteration if invalid
+                }
+                
                 const img = new Image();
                 const url = URL.createObjectURL(image);
 
