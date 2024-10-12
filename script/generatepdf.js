@@ -181,6 +181,18 @@ fetch('form/imageform.html')
         }
     });
 
+    //For the outline side the picture / glossy only trigger
+    function drawDashedRect(doc, x, y, width, height, dashLength = 1) {
+        const dashPattern = [dashLength, dashLength];
+        doc.setDrawColor(0, 0, 0); 
+        doc.setLineWidth(0.1); 
+    
+        doc.line(x, y, x + width, y, 'S'); 
+        doc.line(x + width, y, x + width, y + height, 'S'); 
+        doc.line(x + width, y + height, x, y + height, 'S'); 
+        doc.line(x, y + height, x, y, 'S'); 
+    }
+
     // Function for tranfer picture to pdf file
     window.generatePDF = async function() { 
         const { jsPDF } = window.jspdf;
@@ -325,7 +337,7 @@ fetch('form/imageform.html')
         // Handle glossy package options
         if (paperType === 'glossy') {
             if (glossyPackage === '2by2') {
-                cols = 4;
+                cols = 3;
                 rows = 1;
                 imgWidth = 58.8;
                 imgHeight = 58.8;
@@ -402,7 +414,9 @@ fetch('form/imageform.html')
                 
                             // Add image to the PDF
                             doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'NONE');
-                            resolve();
+                            // Draw dashed outline around the image
+                            drawDashedRect(doc, x, y, imgWidth, imgHeight);
+                            resolve();  
                         };
                     });
                 }
@@ -412,19 +426,12 @@ fetch('form/imageform.html')
         // Plain paper logic
         if (paperType === 'plain') {
             if (uploadedImages.length === 0) {
-                console.error('No images uploaded to generate PDF.');
+                document.getElementById('warningModal').style.display = 'block';
                 return; // Early exit if there are no images
             }
 
             for (let i = 0; i < uploadedImages.length; i++) {
                 const image = uploadedImages[i];
-
-                // Check if the image exists and is a File object
-                if (!image || !(image instanceof File)) {
-                    console.error('Uploaded image is not valid:', image);
-                    continue; // Skip this iteration if invalid
-                }
-                
                 const img = new Image();
                 const url = URL.createObjectURL(image);
 
@@ -479,4 +486,12 @@ fetch('form/imageform.html')
         const pdfUrl = URL.createObjectURL(pdfBlob);
         document.getElementById('pdfPreview').src = pdfUrl;
     }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('warningModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+
 });
