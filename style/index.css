@@ -302,9 +302,13 @@ h2{
     .border{
         width: 500px;
         height: 670px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
     }
     .preview{
-        margin-top: 10px;
+        margin: auto;
         width: 550px;
         height: 700px;
         border-radius: 15px;
@@ -313,6 +317,12 @@ h2{
     #pdfPreview{
         width: 100%; 
         height: 620px;
+    }
+    body{
+        margin: auto;
+        padding: auto;
+        width: auto;
+        height: auto;
     }
 }
 
