@@ -323,6 +323,7 @@ h2{
         padding: auto;
         width: auto;
         height: auto;
+        position: relative;
     }
 }
 

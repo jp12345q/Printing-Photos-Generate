@@ -255,13 +255,11 @@ for button icon
 
 /*Animation*/
 @keyframes slideLeft {
-    /* Initial state (before animation starts) */
     0% {
         transform: translateX(-100%);
         opacity: 0;
     }
 
-    /* Final state (after animation ends) */
     100% {
         transform: translateX(0);
         opacity: 1;
@@ -269,13 +267,10 @@ for button icon
 }
 
 @keyframes slideDown {
-    /* Initial state (before animation starts) */
     0% {
         transform: translateY(-100%);
         opacity: 0;
     }
-
-    /* Final state (after animation ends) */
     100% {
         transform: translateY(0);
         opacity: 1;
