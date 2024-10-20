@@ -193,6 +193,11 @@ fetch('form/imageform.html')
         doc.line(x, y + height, x, y, 'S'); 
     }
 
+    //For mobile device download link
+    function isMobileDevice() {
+        return /Mobi|Android/i.test(navigator.userAgent);
+    }
+
     // Function for tranfer picture to pdf file
     window.generatePDF = async function() { 
         const { jsPDF } = window.jspdf;
@@ -495,6 +500,18 @@ fetch('form/imageform.html')
         const pdfBlob = doc.output('blob');
         const pdfUrl = URL.createObjectURL(pdfBlob);
         document.getElementById('pdfPreview').src = pdfUrl;
+
+        if (isMobileDevice()) {
+            // For mobile devices, trigger the download
+            const downloadLink = document.createElement('a');
+            downloadLink.href = pdfUrl;
+            downloadLink.download = 'generated.pdf';
+            downloadLink.click();
+        } else {
+            // For desktop, show the PDF preview in the iframe
+            const iframe = document.getElementById('pdfPreview');
+            iframe.src = pdfUrl;
+        }
     }
 
     window.onclick = function(event) {
