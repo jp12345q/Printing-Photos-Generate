@@ -247,9 +247,17 @@ for button icon
     }
     .imagelist{
         top: 165px;
-        left: 150px;
+        left: 160px;
     }
-
+    #imageDropdown{
+        top: 210px;
+        left: 250px;
+        width: auto;
+        height: auto;
+        font-size: 11px;
+        padding: auto;
+        margin: auto;
+    }
 }
 
 
