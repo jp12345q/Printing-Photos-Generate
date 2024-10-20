@@ -256,11 +256,21 @@ fetch('form/imageform.html')
             imgWidth = 203.2;
             imgHeight = 254;
         } else if (pictureSize === 'A4') {
-            imgWidth = 200;
-            imgHeight = 290;
+            if (orientation === 'landscape') {
+                imgWidth = 290;  
+                imgHeight = 200; 
+            } else {
+                imgWidth = 200;
+                imgHeight = 290;
+            }
         } else if (pictureSize === 'Legal') {
-            imgWidth = 210;
-            imgHeight = 328;
+            if (orientation === 'landscape'){
+                imgWidth = 328;
+                imgHeight = 210;
+            } else {
+                imgWidth = 210;
+                imgHeight = 328;
+            }
         }
 
         // Convert inches to pixels if custom dimensions are provided
