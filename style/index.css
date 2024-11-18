@@ -50,7 +50,7 @@ h2{
     top: 0;
     left: 0;
 }
-
+/*
 .border::before{
     content:"";
     background: linear-gradient(
@@ -62,15 +62,15 @@ h2{
     left: 0;
     background-size: 600%;
     z-index: -1;
-    width: calc(100% + 5px);
-    height: calc(100% + 5px);
-    filter: blur(8px);
+    width: calc(100% + 1px);
+    height: calc(100% + 1px);
+    filter: blur(1px);
     animation: spin 5s linear infinite;
     transition: opacity .3s ease-in-out;
     border-radius: 10px;
     opacity: 1;
 }
-
+*/
 
 
 /*Button*/
@@ -288,7 +288,7 @@ h2{
 
 /* Screen for mobile */
 
-@media screen and (max-width:580px){
+@media screen and (max-width:600px){
     h1{
         font-size: 24px;
     }
@@ -300,8 +300,8 @@ h2{
         padding: auto;
     }
     .border{
-        width: 490px;
-        height: 680px;
+        width: auto;
+        height: auto;
         margin: auto;
         padding: auto;
     }
